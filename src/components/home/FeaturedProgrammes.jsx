@@ -1,131 +1,130 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Card from '../common/Card';
-import Button from '../common/Button';
-import Badge from '../common/Badge';
+
+const statusStyles = {
+  'Open for Enrollment': 'bg-green-100 text-green-700',
+  'Applications Open':   'bg-secondary/10 text-secondary-dark',
+  'Upcoming':            'bg-accent text-primary',
+  'Active':              'bg-primary/10 text-primary',
+};
 
 const FeaturedProgrammes = () => {
   const [programmes, setProgrammes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Mock data - will be replaced with API call
-    const mockProgrammes = [
+    const mock = [
       {
-        id: 'foundations-of-faith',
+        id: 'foundation-beams',
+        beamType: 'Foundation Beams',
         title: 'Foundations of Faith',
-        targetAudience: 'Youth',
-        duration: '12 Weeks',
-        schedule: 'Saturdays, 10:00 AM - 12:00 PM',
-        overview: 'A comprehensive introduction to core Christian beliefs, designed to establish a firm biblical foundation for young believers.',
-        imageUrl: '/images/programmes/foundations.jpg',
+        duration: '8 Weeks',
+        format: 'Online / Hybrid',
+        status: 'Open for Enrollment',
+        overview: 'Core spiritual discipline training covering prayer, Scripture study, salvation, and basic Christian living.',
       },
       {
-        id: 'mens-warrior-discipleship',
-        title: 'Men of Valor - Warrior Discipleship',
-        targetAudience: 'Men',
-        duration: '16 Weeks',
-        schedule: 'Wednesday Evenings, 6:30 PM - 8:30 PM',
-        overview: 'Equipping men to stand firm in their faith, lead their families with integrity, and impact their communities for Christ.',
-        imageUrl: '/images/programmes/men-valor.jpg',
+        id: 'pillar-beams',
+        beamType: 'Pillar Beams',
+        title: 'Melchizedek Leadership Cohort',
+        duration: '12 Weeks',
+        format: 'Cohort-based',
+        status: 'Applications Open',
+        overview: 'Specialized training designed to equip mentors, cell group leaders, and ministry heads for kingdom impact.',
       },
       {
-        id: 'virtuous-women',
-        title: 'Virtuous Women - Daughters of the King',
-        targetAudience: 'Women',
-        duration: '12 Weeks',
-        schedule: 'Tuesday Afternoons, 2:00 PM - 4:00 PM',
-        overview: 'Empowering women to walk in their God-given identity, cultivate godly character, and fulfill their calling with grace and strength.',
-        imageUrl: '/images/programmes/virtuous-women.jpg',
+        id: 'beam-groups',
+        beamType: 'Beam Groups',
+        title: '1-on-1 & Micro-Group Mentorship',
+        duration: 'Ongoing',
+        format: 'Peer-to-Peer',
+        status: 'Active',
+        overview: 'Micro accountability groups of 3–5 people focusing on scripture memory, daily reflection, and prayer watches.',
       },
     ];
 
     setTimeout(() => {
-      setProgrammes(mockProgrammes);
+      setProgrammes(mock);
       setLoading(false);
-    }, 500);
+    }, 300);
   }, []);
 
   if (loading) {
     return (
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-background">
         <div className="container-custom text-center">
-          <p className="text-neutral">Loading programmes...</p>
+          <div className="flex justify-center gap-2">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="w-2 h-2 rounded-full bg-secondary animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
+            ))}
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="section-padding bg-white">
+    <section className="section-padding bg-background">
       <div className="container-custom">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <span className="inline-block bg-accent text-primary text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">
+            Cohort Tracks
+          </span>
           <h2 className="mb-4">Featured Programmes</h2>
           <p className="text-neutral text-lg">
-            Structured discipleship journeys designed to equip you for kingdom impact
+            Structured discipleship journeys designed to equip you for kingdom impact.
           </p>
         </div>
 
-        {/* Programmes Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {programmes.map((programme) => (
-            <Card key={programme.id} className="flex flex-col" padding={false}>
-              {/* Programme Image */}
-              <div className="h-48 bg-gradient-to-br from-primary to-primary-light overflow-hidden">
-                <img 
-                  src={programme.imageUrl} 
-                  alt={programme.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                  }}
-                />
+            <div key={programme.id} className="card flex flex-col">
+              {/* Teal header stripe */}
+              <div className="bg-primary px-6 py-5">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-secondary text-xs font-bold uppercase tracking-wider">
+                    {programme.beamType}
+                  </span>
+                  <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${statusStyles[programme.status]}`}>
+                    {programme.status}
+                  </span>
+                </div>
+                <h5 className="text-white font-bold leading-snug">{programme.title}</h5>
               </div>
 
-              {/* Programme Content */}
+              {/* Body */}
               <div className="p-6 flex flex-col flex-grow">
-                <div className="mb-3">
-                  <Badge variant="accent">{programme.targetAudience}</Badge>
-                </div>
-                
-                <h4 className="mb-3 line-clamp-2">{programme.title}</h4>
-                
-                <div className="space-y-2 mb-4 text-sm text-neutral">
-                  <div className="flex items-center space-x-2">
-                    <svg className="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                <div className="flex gap-4 mb-4 text-xs text-neutral-light">
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span>{programme.duration}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <svg className="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    {programme.duration}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    <span>{programme.schedule}</span>
-                  </div>
+                    {programme.format}
+                  </span>
                 </div>
 
-                <p className="text-neutral text-sm mb-6 line-clamp-3 flex-grow">
+                <p className="text-neutral text-sm leading-relaxed flex-grow mb-5">
                   {programme.overview}
                 </p>
 
-                <Link to="/programmes" className="mt-auto">
-                  <Button variant="secondary" className="w-full">
-                    View Details
-                  </Button>
+                <Link to="/programmes" className="btn btn-teal border border-accent-dark w-full text-sm hover:bg-secondary hover:text-white hover:border-secondary transition-all">
+                  View Track Details
                 </Link>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
 
-        {/* View All Link */}
         <div className="text-center mt-12">
-          <Link to="/programmes">
-            <Button variant="outline">
-              View All Programmes
-            </Button>
+          <Link to="/programmes" className="btn btn-outline">
+            View All Tracks
           </Link>
         </div>
       </div>

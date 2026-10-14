@@ -1,19 +1,18 @@
-const Button = ({ 
-  children, 
-  variant = 'primary', 
-  size = 'md', 
-  onClick, 
+const Button = ({
+  children,
+  variant = 'primary',
+  size = 'md',
+  onClick,
   type = 'button',
   disabled = false,
   className = '',
-  ...props 
+  ...props
 }) => {
-  const baseStyles = 'btn';
-  
   const variants = {
-    primary: 'btn-primary',
-    secondary: 'btn-secondary',
-    outline: 'btn-outline',
+    primary:   'btn-primary',   // Ochre Gold
+    secondary: 'btn-secondary', // Deep Teal
+    outline:   'btn-outline',   // Teal border
+    teal:      'btn-teal',      // Soft teal tint
   };
 
   const sizes = {
@@ -22,14 +21,12 @@ const Button = ({
     lg: 'px-8 py-4 text-lg',
   };
 
-  const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed' : '';
-
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${disabledStyles} ${className}`}
+      className={`btn ${variants[variant]} ${sizes[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
       {...props}
     >
       {children}

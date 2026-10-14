@@ -1,17 +1,13 @@
-const Card = ({ 
-  children, 
-  className = '', 
+const Card = ({
+  children,
+  className = '',
   hoverable = true,
   padding = true,
-  ...props 
+  ...props
 }) => {
-  const baseStyles = 'card';
-  const hoverStyles = hoverable ? 'hover:shadow-xl' : '';
-  const paddingStyles = padding ? 'p-6' : '';
-
   return (
-    <div 
-      className={`${baseStyles} ${hoverStyles} ${paddingStyles} ${className}`}
+    <div
+      className={`card ${hoverable ? 'hover:shadow-lg' : ''} ${padding ? 'p-6' : ''} ${className}`}
       {...props}
     >
       {children}

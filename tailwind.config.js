@@ -7,30 +7,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Melchizedek Beams Ltd Brand Colors
+        // Melchizedek Beams Ltd — Warm Light-Mode Palette
         primary: {
-          DEFAULT: "#1A2B4C", // Deep Royal Navy
-          dark: "#0F1829",
-          light: "#2A3B5C",
+          DEFAULT: "#0F383E", // Deep Slate/Teal
+          dark: "#0A2428",
+          light: "#1A5260",
         },
         secondary: {
-          DEFAULT: "#D4AF37", // Warm Amber Gold
-          dark: "#B89620",
-          light: "#E0C45E",
+          DEFAULT: "#D97706", // Ochre Gold
+          dark: "#B45309",
+          light: "#F59E0B",
         },
         accent: {
-          DEFAULT: "#6B1D2F", // Deep Wine Burgundy
-          dark: "#4A1420",
-          light: "#8B2D3F",
+          DEFAULT: "#E6F4F1", // Soft Teal Tint
+          dark: "#C7E8E2",
+          text: "#0F383E",
         },
         neutral: {
-          DEFAULT: "#334155", // Slate Gray
-          light: "#64748B",
-          dark: "#1E293B",
+          DEFAULT: "#374151", // Mid Gray for body text
+          light: "#6B7280",
+          dark: "#1F2937",
         },
         background: {
-          DEFAULT: "#F8F9FA", // Soft Warm Off-White
-          alt: "#FAFAF7",
+          DEFAULT: "#FAF9F5", // Warm Ivory
+          alt: "#FFFFFF",
+        },
+        surface: {
+          DEFAULT: "#FFFFFF", // Card surface
+          border: "#E5E7EB",
         },
       },
       fontFamily: {

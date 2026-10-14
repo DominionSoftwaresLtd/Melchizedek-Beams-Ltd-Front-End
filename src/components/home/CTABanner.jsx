@@ -1,42 +1,41 @@
 import { Link } from 'react-router-dom';
-import Button from '../common/Button';
 
 const CTABanner = () => {
   return (
-    <section className="section-padding bg-secondary">
-      <div className="container-custom">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-primary mb-6">
+    <section className="section-padding bg-secondary relative overflow-hidden">
+      {/* Decorative shapes */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+
+      <div className="container-custom relative z-10">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-white mb-4">
             Ready to Begin Your Discipleship Journey?
           </h2>
-          <p className="text-primary text-lg mb-8 leading-relaxed">
-            Join hundreds of believers who have been equipped for kingdom impact. 
-            Whether you're new to faith or seeking deeper growth, we have a programme for you.
+          <p className="text-white/80 text-lg mb-8 leading-relaxed">
+            Join hundreds of believers who have been equipped for kingdom impact.
+            Whether you're new to faith or seeking deeper growth, there's a beam track for you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/programmes">
-              <Button variant="secondary" size="lg">
-                Browse Programmes
-              </Button>
+            <Link to="/programmes" className="btn bg-primary text-white hover:bg-primary-dark text-base px-8 py-3.5">
+              Browse Programmes
             </Link>
-            <Link to="/donate">
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white"
-              >
-                Support Our Ministry
-              </Button>
+            <Link
+              to="/donate"
+              className="btn border-2 border-white/40 text-white hover:bg-white hover:text-secondary text-base px-8 py-3.5"
+            >
+              Support Our Ministry
             </Link>
           </div>
 
-          {/* Additional Info */}
-          <div className="mt-12 pt-8 border-t border-primary/20">
-            <p className="text-primary/80 text-sm">
-              Have questions? <Link to="/about" className="font-semibold hover:underline">Contact us</Link> or 
-              call <span className="font-semibold">+254 700 123 456</span>
-            </p>
-          </div>
+          <p className="text-white/60 text-sm mt-8">
+            Have questions?{' '}
+            <Link to="/about" className="text-white font-semibold hover:underline">
+              Contact us
+            </Link>{' '}
+            or call{' '}
+            <span className="text-white font-semibold">+254 700 123 456</span>
+          </p>
         </div>
       </div>
     </section>
