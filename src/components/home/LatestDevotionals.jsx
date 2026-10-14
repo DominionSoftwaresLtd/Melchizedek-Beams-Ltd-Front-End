@@ -79,7 +79,7 @@ const LatestDevotionals = () => {
                   {article.summary}
                 </p>
 
-                <div className="flex items-center justify-between text-xs text-neutral-light mt-auto pt-4 border-t border-surface-border">
+                <div className="flex items-center justify-between text-xs text-gray-500 mt-auto pt-4 border-t border-gray-200">
                   <div className="flex items-center gap-2">
                     <span className="font-medium text-neutral">{article.author}</span>
                     <span>·</span>
@@ -95,7 +95,7 @@ const LatestDevotionals = () => {
         <div className="text-center mt-12">
           <Link
             to="/news"
-            className="inline-flex items-center gap-2 text-secondary hover:text-secondary-dark font-semibold group"
+            className="inline-flex items-center gap-2 text-secondary hover:text-[#B45309] font-semibold group"
           >
             View All Articles
             <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

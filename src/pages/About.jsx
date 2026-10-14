@@ -148,7 +148,7 @@ const About = () => {
       </section>
 
       {/* The Meaning of "Melchizedek Beams" */}
-      <section className="section-padding bg-background">
+      <section className="section-padding bg-[#FAF9F5]">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-center mb-12">The Meaning of "Melchizedek Beams"</h2>
@@ -225,7 +225,7 @@ const About = () => {
       </section>
 
       {/* Leadership & Team */}
-      <section className="section-padding bg-background">
+      <section className="section-padding bg-[#FAF9F5]">
         <div className="container-custom">
           <h2 className="text-center mb-12">Our Leadership Team</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

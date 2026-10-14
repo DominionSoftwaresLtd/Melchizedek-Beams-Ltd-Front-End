@@ -161,7 +161,7 @@ const TrackCard = ({ track }) => (
 
 const Programmes = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#FAF9F5]">
 
       {/* ── Hero ── */}
       <section className="bg-primary text-white py-20">
@@ -184,7 +184,7 @@ const Programmes = () => {
       </section>
 
       {/* ── Beam Metaphor Banner ── */}
-      <section className="bg-accent border-b border-surface-border">
+      <section className="bg-accent border-b border-gray-200">
         <div className="container-custom py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
@@ -195,7 +195,7 @@ const Programmes = () => {
             ].map((item) => (
               <div key={item.label}>
                 <p className="text-primary font-bold text-sm">{item.label}</p>
-                <p className="text-neutral-light text-xs mt-0.5">{item.sub}</p>
+                <p className="text-gray-500 text-xs mt-0.5">{item.sub}</p>
               </div>
             ))}
           </div>
@@ -222,7 +222,7 @@ const Programmes = () => {
       </section>
 
       {/* ── How It Works ── */}
-      <section className="section-padding bg-white border-t border-surface-border">
+      <section className="section-padding bg-white border-t border-gray-200">
         <div className="container-custom">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2 className="mb-3">How It Works</h2>

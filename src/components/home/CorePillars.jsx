@@ -35,7 +35,7 @@ const pillars = [
 
 const CorePillars = () => {
   return (
-    <section className="section-padding bg-background">
+    <section className="section-padding bg-[#FAF9F5]">
       <div className="container-custom">
 
         <div className="text-center max-w-2xl mx-auto mb-14">

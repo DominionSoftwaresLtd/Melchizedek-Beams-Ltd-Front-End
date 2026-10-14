@@ -4,36 +4,19 @@
 
 @layer base {
   body {
-    @apply bg-background text-neutral antialiased;
+    @apply bg-[#FAF9F5] text-[#374151] antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply text-primary font-bold;
+    @apply text-[#0F383E] font-bold;
   }
 
-  h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl;
-  }
-
-  h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl;
-  }
-
-  h3 {
-    @apply text-2xl md:text-3xl;
-  }
-
-  h4 {
-    @apply text-xl md:text-2xl;
-  }
-
-  h5 {
-    @apply text-lg md:text-xl;
-  }
-
-  h6 {
-    @apply text-base md:text-lg;
-  }
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
+  h2 { @apply text-3xl md:text-4xl lg:text-5xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+  h4 { @apply text-xl md:text-2xl; }
+  h5 { @apply text-lg md:text-xl; }
+  h6 { @apply text-base md:text-lg; }
 }
 
 @layer components {
@@ -41,9 +24,9 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* Card: white surface with thin border */
+  /* Card: pure white with thin border — no bg-surface, use literal values */
   .card {
-    @apply bg-surface rounded-xl border border-surface-border shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden;
+    @apply bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden;
   }
 
   .btn {
@@ -52,42 +35,31 @@
 
   /* Primary CTA: Ochre Gold */
   .btn-primary {
-    @apply bg-secondary text-white hover:bg-secondary-dark hover:scale-105;
+    @apply bg-[#D97706] text-white hover:bg-[#B45309] hover:scale-105;
   }
 
   /* Secondary: Deep Teal */
   .btn-secondary {
-    @apply bg-primary text-white hover:bg-primary-dark hover:scale-105;
+    @apply bg-[#0F383E] text-white hover:bg-[#0A2428] hover:scale-105;
   }
 
   /* Outline: Deep Teal border */
   .btn-outline {
-    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white;
+    @apply border-2 border-[#0F383E] text-[#0F383E] hover:bg-[#0F383E] hover:text-white;
   }
 
-  /* Ghost teal tint button */
+  /* Ghost teal tint */
   .btn-teal {
-    @apply bg-accent text-primary hover:bg-accent-dark;
+    @apply bg-[#E6F4F1] text-[#0F383E] hover:bg-[#C7E8E2];
   }
 
   .section-padding {
     @apply py-16 md:py-24;
   }
 
-  /* Status badge variants for programmes */
-  .status-open {
-    @apply bg-green-100 text-green-800;
-  }
-
-  .status-applications {
-    @apply bg-secondary/10 text-secondary-dark;
-  }
-
-  .status-upcoming {
-    @apply bg-accent text-primary;
-  }
-
-  .status-active {
-    @apply bg-primary/10 text-primary;
-  }
+  /* Status badges */
+  .status-open        { @apply bg-green-100 text-green-800; }
+  .status-applications { @apply bg-amber-50 text-amber-700; }
+  .status-upcoming    { @apply bg-[#E6F4F1] text-[#0F383E]; }
+  .status-active      { @apply bg-[#0F383E]/10 text-[#0F383E]; }
 }

@@ -186,7 +186,7 @@ const ResourceCard = ({ resource }) => (
         <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${categoryColors[resource.category]}`}>
           {resource.category}
         </span>
-        <span className="inline-flex items-center gap-1 text-xs text-neutral-light bg-background px-2 py-1 rounded-full border border-surface-border">
+        <span className="inline-flex items-center gap-1 text-xs text-gray-500 bg-[#FAF9F5] px-2 py-1 rounded-full border border-gray-200">
           {formatIcons[resource.format]}
           {resource.format}
         </span>
@@ -196,7 +196,7 @@ const ResourceCard = ({ resource }) => (
         {resource.title}
       </h5>
 
-      <p className="text-xs font-semibold text-neutral-light uppercase tracking-wide mb-3">
+      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">
         {resource.provider}
       </p>
 
@@ -209,7 +209,7 @@ const ResourceCard = ({ resource }) => (
         href={resource.externalUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="btn btn-teal border border-accent-dark w-full text-sm mt-auto group-hover:bg-secondary group-hover:text-white group-hover:border-secondary transition-all"
+        className="btn btn-teal border border-[#C7E8E2] w-full text-sm mt-auto group-hover:bg-secondary group-hover:text-white group-hover:border-secondary transition-all"
       >
         Open Resource
         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -236,7 +236,7 @@ const Resources = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#FAF9F5]">
 
       {/* ── Hero ── */}
       <section className="bg-primary text-white py-20">
@@ -254,7 +254,7 @@ const Resources = () => {
       </section>
 
       {/* ── Filters ── */}
-      <section className="sticky top-[80px] z-30 bg-white border-b border-surface-border shadow-sm">
+      <section className="sticky top-[80px] z-30 bg-white border-b border-gray-200 shadow-sm">
         <div className="container-custom py-4">
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             {/* Category tabs */}
@@ -266,7 +266,7 @@ const Resources = () => {
                   className={`px-4 py-1.5 rounded-full text-sm font-semibold border transition-all ${
                     activeCategory === cat
                       ? 'bg-primary text-white border-primary'
-                      : 'bg-white text-neutral border-surface-border hover:border-primary hover:text-primary'
+                      : 'bg-white text-neutral border-gray-200 hover:border-primary hover:text-primary'
                   }`}
                 >
                   {cat}
@@ -277,7 +277,7 @@ const Resources = () => {
             {/* Search */}
             <div className="relative w-full sm:w-64">
               <svg
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-light"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"
                 fill="none" stroke="currentColor" viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -288,7 +288,7 @@ const Resources = () => {
                 placeholder="Search resources..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 text-sm border border-surface-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary bg-background"
+                className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary bg-[#FAF9F5]"
               />
             </div>
           </div>
@@ -299,7 +299,7 @@ const Resources = () => {
       <section className="section-padding">
         <div className="container-custom">
           {/* Result count */}
-          <p className="text-sm text-neutral-light mb-8">
+          <p className="text-sm text-gray-500 mb-8">
             Showing <span className="font-semibold text-primary">{filtered.length}</span> resource{filtered.length !== 1 ? 's' : ''}
             {activeCategory !== 'All' && <> in <span className="font-semibold text-primary">{activeCategory}</span></>}
           </p>
@@ -312,12 +312,12 @@ const Resources = () => {
             </div>
           ) : (
             <div className="text-center py-24">
-              <svg className="w-12 h-12 text-neutral-light mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-12 h-12 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                   d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <p className="text-neutral font-semibold text-lg">No resources found</p>
-              <p className="text-neutral-light text-sm mt-1">Try a different category or search term.</p>
+              <p className="text-gray-500 text-sm mt-1">Try a different category or search term.</p>
               <button
                 onClick={() => { setActiveCategory('All'); setQuery(''); }}
                 className="btn btn-teal mt-4 text-sm"
@@ -330,7 +330,7 @@ const Resources = () => {
       </section>
 
       {/* ── Suggest a Resource ── */}
-      <section className="bg-white border-t border-surface-border section-padding">
+      <section className="bg-white border-t border-gray-200 section-padding">
         <div className="container-custom text-center max-w-xl mx-auto">
           <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -4,7 +4,7 @@ const Badge = ({ children, variant = 'default', className = '' }) => {
     primary:   'bg-primary text-white',
     secondary: 'bg-secondary text-white',
     teal:      'bg-accent text-primary',
-    gold:      'bg-secondary/10 text-secondary-dark',
+    gold:      'bg-secondary/10 text-[#B45309]',
   };
 
   return (

@@ -1,6 +1,6 @@
 const AdminDashboard = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#FAF9F5]">
       <section className="bg-primary text-white py-16">
         <div className="container-custom text-center">
           <h1 className="text-white mb-4">Admin Dashboard</h1>

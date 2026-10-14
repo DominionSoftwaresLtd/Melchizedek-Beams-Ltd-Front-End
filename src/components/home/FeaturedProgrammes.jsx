@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const statusStyles = {
   'Open for Enrollment': 'bg-green-100 text-green-700',
-  'Applications Open':   'bg-secondary/10 text-secondary-dark',
+  'Applications Open':   'bg-secondary/10 text-[#B45309]',
   'Upcoming':            'bg-accent text-primary',
   'Active':              'bg-primary/10 text-primary',
 };
@@ -51,7 +51,7 @@ const FeaturedProgrammes = () => {
 
   if (loading) {
     return (
-      <section className="section-padding bg-background">
+      <section className="section-padding bg-[#FAF9F5]">
         <div className="container-custom text-center">
           <div className="flex justify-center gap-2">
             {[0, 1, 2].map((i) => (
@@ -64,7 +64,7 @@ const FeaturedProgrammes = () => {
   }
 
   return (
-    <section className="section-padding bg-background">
+    <section className="section-padding bg-[#FAF9F5]">
       <div className="container-custom">
 
         <div className="text-center max-w-2xl mx-auto mb-14">
@@ -95,7 +95,7 @@ const FeaturedProgrammes = () => {
 
               {/* Body */}
               <div className="p-6 flex flex-col flex-grow">
-                <div className="flex gap-4 mb-4 text-xs text-neutral-light">
+                <div className="flex gap-4 mb-4 text-xs text-gray-500">
                   <span className="flex items-center gap-1">
                     <svg className="w-3.5 h-3.5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -114,7 +114,7 @@ const FeaturedProgrammes = () => {
                   {programme.overview}
                 </p>
 
-                <Link to="/programmes" className="btn btn-teal border border-accent-dark w-full text-sm hover:bg-secondary hover:text-white hover:border-secondary transition-all">
+                <Link to="/programmes" className="btn btn-teal border border-[#C7E8E2] w-full text-sm hover:bg-secondary hover:text-white hover:border-secondary transition-all">
                   View Track Details
                 </Link>
               </div>

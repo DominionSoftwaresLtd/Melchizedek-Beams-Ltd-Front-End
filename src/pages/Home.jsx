@@ -1,4 +1,5 @@
 import Hero from '../components/home/Hero';
+import QuickStats from '../components/home/QuickStats';
 import AboutSnippet from '../components/home/AboutSnippet';
 import CorePillars from '../components/home/CorePillars';
 import FeaturedProgrammes from '../components/home/FeaturedProgrammes';
@@ -10,6 +11,7 @@ const Home = () => {
   return (
     <>
       <Hero />
+      <QuickStats />
       <AboutSnippet />
       <CorePillars />
       <FeaturedProgrammes />

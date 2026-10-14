@@ -2,57 +2,51 @@ import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
-    <section className="relative bg-primary text-white section-padding overflow-hidden">
-      {/* Subtle decorative rings */}
-      <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full border border-white/5" />
-      <div className="absolute -top-12 -right-12 w-72 h-72 rounded-full border border-white/5" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl" />
+    <section className="relative w-full min-h-[85vh] flex items-end overflow-hidden bg-[#0F383E]">
 
-      <div className="container-custom relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Background image — set your own in /public/images/hero.jpg */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/hero.jpg')" }}
+        aria-hidden="true"
+      />
+
+      {/* Dark gradient overlay — heavier at bottom where text sits */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/10" aria-hidden="true" />
+
+      {/* Content */}
+      <div className="container-custom relative z-10 pb-16 md:pb-24 pt-32 md:pt-48">
+        <div className="max-w-2xl">
 
           {/* Eyebrow */}
-          <span className="inline-block bg-secondary/20 text-secondary text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
-            Equipping Believers, Beam by Beam
+          <span className="inline-block bg-[#D97706] text-white text-xs font-bold px-3 py-1 rounded-sm mb-5 uppercase tracking-widest">
+            Discipleship · Prayer · Mentorship
           </span>
 
-          {/* Heading */}
-          <h1 className="text-white mb-6 leading-tight">
-            Raising Kingdom Leaders Through Discipleship
+          {/* Headline — large, serif weight like reference */}
+          <h1 className="text-white text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4">
+            Equipping<br />
+            <span className="text-[#D97706]">Believers,</span><br />
+            Beam by Beam.
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-xl text-white/70 mb-10 leading-relaxed max-w-2xl mx-auto">
+          {/* Sub-text */}
+          <p className="text-white/80 text-base md:text-lg leading-relaxed mb-8 max-w-lg">
             A discipleship and spiritual growth organization committed to raising up kingdom leaders
-            through prayer, Word study, mentorship, and accountability — one beam at a time.
+            through prayer, Word study, mentorship, and accountability.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link to="/programmes" className="btn btn-primary text-base px-8 py-3.5">
+          <div className="flex flex-wrap gap-4">
+            <Link to="/programmes" className="btn btn-primary px-7 py-3 text-base">
               Explore Programmes
             </Link>
             <Link
-              to="/programmes"
-              className="btn border-2 border-white/30 text-white hover:bg-white hover:text-primary text-base px-8 py-3.5"
+              to="/about"
+              className="btn bg-white/15 border border-white/40 text-white hover:bg-white hover:text-primary px-7 py-3 text-base backdrop-blur-sm"
             >
-              Join a Cohort
+              Learn More
             </Link>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 pt-10 border-t border-white/10">
-            {[
-              { value: '500+', label: 'Disciples Trained' },
-              { value: '15+',  label: 'Active Programmes' },
-              { value: '10',   label: 'Years of Ministry' },
-              { value: '50+',  label: 'Leaders Raised' },
-            ].map(({ value, label }) => (
-              <div key={label}>
-                <div className="text-4xl font-bold text-secondary mb-1">{value}</div>
-                <div className="text-white/60 text-sm">{label}</div>
-              </div>
-            ))}
           </div>
         </div>
       </div>
