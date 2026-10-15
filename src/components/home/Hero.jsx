@@ -4,18 +4,18 @@ const Hero = () => {
   return (
     <section className="relative w-full min-h-[88vh] flex items-end overflow-hidden bg-[#0F383E]">
 
-      {/* Background image */}
+      {/* Background image — bg-top on mobile shows the DISCIPLESHIP text, bg-center on larger screens */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-top md:bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/discipleship-hero.jpg')" }}
         aria-hidden="true"
       />
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" aria-hidden="true" />
+      {/* Gradient — stronger at top on mobile so header stays readable, heavier at bottom for text */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/80 md:bg-gradient-to-t md:from-black/80 md:via-black/40 md:to-black/20" aria-hidden="true" />
 
-      {/* Content — constrained so it never overlaps the "DISCIPLESHIP" text in the image on mobile */}
-      <div className="container-custom relative z-10 pb-12 md:pb-20 pt-24 md:pt-32 w-full">
+      {/* Content pushed down enough on mobile that the hero image top (DISCIPLESHIP) stays visible */}
+      <div className="container-custom relative z-10 pb-12 md:pb-20 pt-[55%] sm:pt-[40%] md:pt-32 w-full">
         <div className="max-w-xl">
 
           {/* Eyebrow */}

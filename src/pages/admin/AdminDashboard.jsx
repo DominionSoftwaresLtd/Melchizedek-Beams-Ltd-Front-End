@@ -30,6 +30,7 @@ const MediaInput = ({ label, urlVal, onUrl, onFile, accept = 'image/*', token, u
     try {
       const formData = new FormData();
       formData.append('image', file);
+      const BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5001/api').replace('/api', '');
       const res  = await fetch(`${API}/upload?type=${uploadType}`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
@@ -37,7 +38,7 @@ const MediaInput = ({ label, urlVal, onUrl, onFile, accept = 'image/*', token, u
       });
       const data = await res.json();
       if (data.success) {
-        const fullUrl = `http://localhost:5001${data.url}`;
+        const fullUrl = `${BASE_URL}${data.url}`;
         setUploadedUrl(fullUrl);
         onUrl(fullUrl); // pass the URL up like a normal URL input
       } else {
