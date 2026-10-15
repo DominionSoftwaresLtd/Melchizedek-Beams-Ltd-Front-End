@@ -35,10 +35,11 @@ const Header = () => {
 
           {/* ── Logo ── */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
+            <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center shrink-0">
               <span className="text-white text-xs font-black tracking-tight">MB</span>
             </div>
-            <div className="hidden sm:block">
+            {/* Always visible — not hidden on mobile */}
+            <div>
               <p className="text-primary font-bold text-sm leading-tight">Melchizedek Beams</p>
               <p className="text-[#D97706] text-[10px] font-semibold leading-tight">Equipping Believers</p>
             </div>

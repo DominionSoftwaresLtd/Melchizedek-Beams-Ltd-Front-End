@@ -19,8 +19,37 @@ const SBadge = ({ s }) => {
 };
 
 /* ── File or URL upload input ── */
-const MediaInput = ({ label, urlVal, onUrl, onFile, accept = 'image/*' }) => {
-  const [mode, setMode] = useState('url');
+const MediaInput = ({ label, urlVal, onUrl, onFile, accept = 'image/*', token, uploadType = 'articles' }) => {
+  const [mode, setMode]       = useState('url');
+  const [uploading, setUploading] = useState(false);
+  const [uploadedUrl, setUploadedUrl] = useState('');
+
+  const handleFile = async (file) => {
+    if (!file) return;
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      const res  = await fetch(`${API}/upload?type=${uploadType}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        const fullUrl = `http://localhost:5001${data.url}`;
+        setUploadedUrl(fullUrl);
+        onUrl(fullUrl); // pass the URL up like a normal URL input
+      } else {
+        alert(data.message || 'Upload failed');
+      }
+    } catch (err) {
+      alert('Upload failed: ' + err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center gap-3 mb-1.5">
@@ -29,7 +58,7 @@ const MediaInput = ({ label, urlVal, onUrl, onFile, accept = 'image/*' }) => {
           {['url','file'].map(m => (
             <button key={m} type="button" onClick={() => setMode(m)}
               className={`px-2 py-0.5 rounded-full font-semibold transition-colors ${mode===m?'bg-primary text-white':'text-gray-400 hover:text-primary'}`}>
-              {m === 'url' ? 'URL' : 'Local file'}
+              {m === 'url' ? 'Paste URL' : 'My device'}
             </button>
           ))}
         </div>
@@ -39,8 +68,19 @@ const MediaInput = ({ label, urlVal, onUrl, onFile, accept = 'image/*' }) => {
           placeholder="https://..."
           className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#D97706]/40" />
       ) : (
-        <input type="file" accept={accept} onChange={(e) => onFile(e.target.files[0])}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs file:mr-2 file:text-xs file:font-semibold file:bg-[#E6F4F1] file:text-primary file:border-0 file:rounded file:py-1 file:px-2" />
+        <div>
+          <input type="file" accept={accept}
+            onChange={(e) => handleFile(e.target.files[0])}
+            disabled={uploading}
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs file:mr-2 file:text-xs file:font-semibold file:bg-[#E6F4F1] file:text-primary file:border-0 file:rounded file:py-1 file:px-2 disabled:opacity-50" />
+          {uploading && <p className="text-xs text-[#D97706] mt-1">Uploading...</p>}
+          {uploadedUrl && !uploading && (
+            <div className="flex items-center gap-2 mt-1.5">
+              <img src={uploadedUrl} alt="Preview" className="w-12 h-12 rounded object-cover border border-gray-200" />
+              <p className="text-xs text-green-600 font-semibold">✓ Uploaded</p>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
@@ -207,7 +247,6 @@ const NewsTab = ({ token }) => {
   const [loading, setLoading] = useState(true);
   const blank = { title:'', type:'Article', category:'Announcements', author:'Admin', summary:'', content:'', eventDate:'', eventVenue:'', imageUrl:'', published:true };
   const [form, setForm]     = useState(blank);
-  const [imageFile, setImageFile] = useState(null);
   const [saving, setSaving] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
@@ -220,19 +259,14 @@ const NewsTab = ({ token }) => {
     e.preventDefault();
     setSaving(true);
     let payload = { ...form };
-    // If a local file was chosen, build a data URL (backend would normally handle file upload — here we embed it)
-    if (imageFile) {
-      const reader = new FileReader();
-      const dataUrl = await new Promise(res => { reader.onload = e => res(e.target.result); reader.readAsDataURL(imageFile); });
-      payload.featuredImage = dataUrl;
-    } else if (form.imageUrl) {
+    if (form.imageUrl) {
       payload.featuredImage = form.imageUrl;
     }
     delete payload.imageUrl;
 
     const res  = await fetch(`${API}/articles`, { method:'POST', headers: ah(token), body: JSON.stringify(payload) });
     const data = await res.json();
-    if (data.success) { setItems(p=>[data.data,...p]); setForm(blank); setImageFile(null); setShowForm(false); }
+    if (data.success) { setItems(p=>[data.data,...p]); setForm(blank); setShowForm(false); }
     else alert(data.message);
     setSaving(false);
   };
@@ -321,6 +355,8 @@ const NewsTab = ({ token }) => {
               onUrl={v=>setForm(f=>({...f,imageUrl:v}))}
               onFile={f=>setImageFile(f)}
               accept="image/*"
+              token={token}
+              uploadType="articles"
             />
 
             <div className="flex items-center gap-2">
@@ -364,21 +400,16 @@ const NewsTab = ({ token }) => {
 const GalleryTab = ({ token }) => {
   const [items, setItems]   = useState([]);
   const [form, setForm]     = useState({ title:'', imageUrl:'', category:'General' });
-  const [imageFile, setImageFile] = useState(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => { fetch(`${API}/gallery`).then(r=>r.json()).then(d=>{ if(d.success) setItems(d.data); }); },[]);
 
   const save = async (e) => {
     e.preventDefault(); setSaving(true);
-    let url = form.imageUrl;
-    if (imageFile) {
-      const reader = new FileReader();
-      url = await new Promise(res => { reader.onload = e => res(e.target.result); reader.readAsDataURL(imageFile); });
-    }
+    const url = form.imageUrl; // already resolved by MediaInput (either pasted URL or uploaded file URL)
     const res  = await fetch(`${API}/gallery`, { method:'POST', headers: ah(token), body: JSON.stringify({...form,imageUrl:url}) });
     const data = await res.json();
-    if (data.success) { setItems(p=>[data.data,...p]); setForm({title:'',imageUrl:'',category:'General'}); setImageFile(null); }
+    if (data.success) { setItems(p=>[data.data,...p]); setForm({title:'',imageUrl:'',category:'General'}); }
     setSaving(false);
   };
 
@@ -408,7 +439,8 @@ const GalleryTab = ({ token }) => {
               </select>
             </div>
           </div>
-          <MediaInput label="Image" urlVal={form.imageUrl} onUrl={v=>setForm(f=>({...f,imageUrl:v}))} onFile={f=>setImageFile(f)} />
+          <MediaInput label="Image" urlVal={form.imageUrl} onUrl={v=>setForm(f=>({...f,imageUrl:v}))} onFile={f=>setImageFile(f)}
+            token={token} uploadType="gallery" />
           <button type="submit" disabled={saving} className="btn btn-primary text-xs py-2 px-5 disabled:opacity-50">
             {saving?'Adding...':'Add Image'}
           </button>
