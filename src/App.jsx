@@ -15,7 +15,8 @@ import Donate      from './pages/Donate';
 import Resources   from './pages/Resources';
 
 // Auth pages
-import SignIn       from './pages/auth/SignIn';
+import SignIn          from './pages/auth/SignIn';
+import ForgotPassword  from './pages/auth/ForgotPassword';
 import StudentDashboard from './pages/student/StudentDashboard';
 
 // Admin pages
@@ -50,8 +51,9 @@ function AppRoutes() {
             <Route path="/resources"   element={<Resources />} />
 
             {/* Auth */}
-            <Route path="/signin"      element={<SignIn />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/signin"          element={<SignIn />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/admin/login"     element={<AdminLogin />} />
 
             {/* Student portal */}
             <Route path="/dashboard" element={

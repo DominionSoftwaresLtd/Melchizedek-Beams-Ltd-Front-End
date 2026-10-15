@@ -79,6 +79,11 @@ const SignIn = () => {
               Apply for a programme
             </Link>
           </p>
+          <p className="text-center text-xs text-gray-400 mt-2">
+            <Link to="/forgot-password" className="text-[#D97706] font-semibold hover:underline">
+              Forgot your password?
+            </Link>
+          </p>
         </div>
 
         {/* Admin hint */}

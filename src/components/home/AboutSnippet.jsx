@@ -16,7 +16,7 @@ const AboutSnippet = () => {
               <div className="border-l-4 border-primary pl-4 mb-4">
                 <p className="text-primary font-semibold text-sm leading-relaxed">
                   A faith-based discipleship organization dedicated to equipping believers
-                  for kingdom impact through prayer, Word study, and mentorship.
+                  for kingdom impact through prayer, Word study and mentorship.
                 </p>
               </div>
 
@@ -27,23 +27,26 @@ const AboutSnippet = () => {
               </p>
               <p className="text-gray-600 text-sm leading-relaxed mb-6">
                 Through intentional programmes, we raise up disciples who don't just know
-                about Jesus, but who walk with Him daily and reproduce their faith in others.
+                about Jesus but who walk with Him daily and reproduce their faith in others.
               </p>
 
-              <div className="flex flex-wrap gap-2">
-                <Link to="/about" className="btn btn-secondary py-2 px-5 text-sm">Learn More</Link>
-                <Link to="/programmes" className="btn btn-outline py-2 px-5 text-sm">View Programmes</Link>
+              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <Link to="/about" className="btn btn-secondary py-2.5 px-5 text-sm w-full sm:w-auto justify-center">Learn More</Link>
+                <Link to="/programmes" className="btn btn-outline py-2.5 px-5 text-sm w-full sm:w-auto justify-center">View Programmes</Link>
               </div>
             </div>
 
-            {/* Image side */}
+            {/* Image side — bible image centred */}
             <div className="relative">
-              <div className="aspect-[4/3] rounded-xl overflow-hidden bg-[#E6F4F1]">
+              <div className="aspect-[4/3] rounded-xl overflow-hidden bg-white border border-gray-100 flex items-center justify-center shadow-sm">
                 <img
-                  src="/images/about-snippet.jpg"
-                  alt="Discipleship community"
+                  src="/images/bible-hero.jpg"
+                  alt="Open Bible with cross — the foundation of our ministry"
                   className="w-full h-full object-cover"
-                  onError={(e) => { e.target.style.display = 'none'; }}
+                  onError={(e) => {
+                    e.target.className = 'w-3/4 h-3/4 object-contain mx-auto';
+                    e.target.src = '/images/bible-hero.jpg';
+                  }}
                 />
               </div>
               <div className="absolute -bottom-3 -left-3 bg-white border border-gray-200 rounded-xl shadow-md px-4 py-2.5">
@@ -72,23 +75,18 @@ const AboutSnippet = () => {
               alt="The Discipleship Process — from Spiritually Dead through Spiritual Infant, Child, Young Adult, Parent to Spiritual Grandparent"
               className="w-full h-auto object-contain"
               onError={(e) => {
-                // Fallback if image not yet placed
                 e.target.parentElement.classList.add('p-8', 'bg-[#E6F4F1]');
                 e.target.style.display = 'none';
-                e.target.parentElement.innerHTML = `
-                  <div class="text-center py-8">
-                    <p class="text-primary font-bold text-lg mb-2">The Discipleship Process</p>
-                    <p class="text-gray-500 text-sm">Add discipleship-process.jpg to /public/images/</p>
-                    <div class="flex justify-center gap-4 mt-4 flex-wrap text-xs text-primary font-semibold">
-                      ${['Spiritually Dead','Spiritual Infant','Spiritual Child','Kingdom Focused','Disciple Maker','Making Disciple Makers'].map(s=>`<span class="bg-[#E6F4F1] px-3 py-1 rounded-full">${s}</span>`).join('')}
-                    </div>
+                const div = document.createElement('div');
+                div.className = 'text-center py-8';
+                div.innerHTML = `<p class="text-primary font-bold text-lg mb-3">The Discipleship Process</p>
+                  <div class="flex justify-center gap-2 mt-2 flex-wrap text-xs text-primary font-semibold">
+                    ${['Spiritually Dead','Spiritual Infant','Spiritual Child','Kingdom Focused','Disciple Maker','Making Disciple Makers'].map(s=>`<span class="bg-white border border-primary/20 px-3 py-1 rounded-full">${s}</span>`).join('')}
                   </div>`;
+                e.target.parentElement.appendChild(div);
               }}
             />
           </div>
-          <p className="text-center text-xs text-gray-400 mt-3">
-            Save this image to <code className="bg-gray-100 px-1 rounded">public/images/discipleship-process.jpg</code>
-          </p>
         </div>
       </section>
     </>

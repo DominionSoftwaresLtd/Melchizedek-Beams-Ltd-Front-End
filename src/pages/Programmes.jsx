@@ -211,7 +211,7 @@ const TrackCard = ({ track, dbProgrammes, onEnroll }) => {
   );
 
   return (
-    <div className="card flex flex-col">
+    <div className="card flex flex-col transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg">
       {/* Header */}
       <div className="bg-primary px-4 py-3.5">
         <div className="flex items-center justify-between mb-2">
@@ -252,7 +252,7 @@ const TrackCard = ({ track, dbProgrammes, onEnroll }) => {
 
         <button
           onClick={() => onEnroll(track, dbMatch?._id)}
-          className="btn btn-primary w-full text-xs py-2 mt-auto"
+          className="btn btn-primary w-full text-xs py-2.5 mt-auto justify-center"
         >
           {track.ctaLabel}
           <svg className="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -293,17 +293,17 @@ const Programmes = () => {
             Every beam has a purpose. Our programmes strengthen specific areas of your walk
             with God and prepare you for greater kingdom impact.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <a href="#tracks" className="btn btn-primary text-sm py-2 px-5">Browse Tracks</a>
-            <Link to="/about" className="btn bg-white/10 border border-white/20 text-white hover:bg-white/20 text-sm py-2 px-5">Learn About Us</Link>
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
+            <a href="#tracks" className="btn btn-primary text-sm py-2.5 px-5 w-full sm:w-auto justify-center">Browse Tracks</a>
+            <Link to="/about" className="btn bg-white/10 border border-white/20 text-white hover:bg-white/20 text-sm py-2.5 px-5 w-full sm:w-auto justify-center">Learn About Us</Link>
           </div>
         </div>
       </section>
 
       {/* ── Beam type strip ── */}
       <section className="bg-[#E6F4F1] border-b border-gray-200">
-        <div className="container-custom py-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+        <div className="container-custom py-5 px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             {[
               { label: 'Foundation Beams', sub: 'Core faith training' },
               { label: 'Pillar Beams', sub: 'Leadership & ministry' },
@@ -373,9 +373,9 @@ const Programmes = () => {
         <div className="container-custom text-center max-w-xl mx-auto">
           <h2 className="text-white text-2xl mb-3">Not Sure Where to Start?</h2>
           <p className="text-white/70 text-sm mb-6">Reach out and a programme coordinator will help you find the right track.</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link to="/about" className="btn btn-primary text-sm py-2 px-5">Contact Us</Link>
-            <Link to="/resources" className="btn bg-white/10 border border-white/20 text-white hover:bg-white/20 text-sm py-2 px-5">Browse Resources</Link>
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
+            <Link to="/about" className="btn btn-primary text-sm py-2.5 px-5 w-full sm:w-auto justify-center">Contact Us</Link>
+            <Link to="/resources" className="btn bg-white/10 border border-white/20 text-white hover:bg-white/20 text-sm py-2.5 px-5 w-full sm:w-auto justify-center">Browse Resources</Link>
           </div>
         </div>
       </section>

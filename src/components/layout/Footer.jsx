@@ -1,55 +1,37 @@
 import { Link } from 'react-router-dom';
 
+const socials = [
+  { label: 'Facebook',  path: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z' },
+  { label: 'Twitter',   path: 'M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z' },
+  { label: 'Instagram', path: 'M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z' },
+  { label: 'YouTube',   path: 'M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z' },
+];
+
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   return (
     <footer className="bg-primary text-white">
-
-      {/* Main Footer */}
-      <div className="container-custom py-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      {/* Compact main grid */}
+      <div className="container-custom py-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 
           {/* Brand */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">MB</span>
+          <div className="col-span-2 md:col-span-1">
+            <div className="flex items-center gap-2.5 mb-3">
+              <div className="w-9 h-9 bg-[#D97706] rounded-lg flex items-center justify-center shrink-0">
+                <span className="text-white font-bold text-xs">MB</span>
               </div>
-              <p className="font-bold text-white text-sm leading-tight">
-                Melchizedek Beams Ltd
-              </p>
+              <p className="font-bold text-white text-sm leading-tight">Melchizedek Beams Ltd</p>
             </div>
-            <p className="text-white/60 text-sm leading-relaxed mb-5">
-              Equipping believers for kingdom impact through discipleship, prayer, mentorship, and leadership development.
+            <p className="text-white/55 text-xs leading-relaxed mb-4 max-w-[220px]">
+              Equipping believers for kingdom impact through discipleship, prayer, mentorship and leadership development.
             </p>
-            {/* Social icons */}
-            <div className="flex space-x-3">
-              {[
-                {
-                  label: 'Facebook',
-                  path: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z',
-                },
-                {
-                  label: 'Twitter',
-                  path: 'M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z',
-                },
-                {
-                  label: 'Instagram',
-                  path: 'M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z',
-                },
-                {
-                  label: 'YouTube',
-                  path: 'M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z',
-                },
-              ].map(({ label, path }) => (
-                <a
-                  key={label}
-                  href="#"
-                  aria-label={label}
-                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition-colors"
-                >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <div className="flex gap-2">
+              {socials.map(({ label, path }) => (
+                <a key={label} href="#" aria-label={label}
+                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#D97706] flex items-center justify-center transition-colors">
+                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d={path} />
                   </svg>
                 </a>
@@ -59,20 +41,18 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h6 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">Quick Links</h6>
-            <ul className="space-y-2.5">
+            <p className="text-white font-bold text-[11px] uppercase tracking-wider mb-3">Quick Links</p>
+            <ul className="space-y-1.5">
               {[
-                { label: 'About Us', to: '/about' },
-                { label: 'Programmes', to: '/programmes' },
-                { label: 'News & Devotionals', to: '/news' },
-                { label: 'Gallery', to: '/gallery' },
-                { label: 'Resources', to: '/resources' },
-                { label: 'Donate', to: '/donate' },
+                { label: 'About Us',          to: '/about' },
+                { label: 'Programmes',        to: '/programmes' },
+                { label: 'News & Devotionals',to: '/news' },
+                { label: 'Gallery',           to: '/gallery' },
+                { label: 'Resources',         to: '/resources' },
+                { label: 'Donate',            to: '/donate' },
               ].map(({ label, to }) => (
                 <li key={label}>
-                  <Link to={to} className="text-white/60 hover:text-secondary text-sm transition-colors">
-                    {label}
-                  </Link>
+                  <Link to={to} className="text-white/55 hover:text-[#D97706] text-xs transition-colors">{label}</Link>
                 </li>
               ))}
             </ul>
@@ -80,18 +60,18 @@ const Footer = () => {
 
           {/* Beam Tracks */}
           <div>
-            <h6 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">Beam Tracks</h6>
-            <ul className="space-y-2.5">
+            <p className="text-white font-bold text-[11px] uppercase tracking-wider mb-3">Beam Tracks</p>
+            <ul className="space-y-1.5">
               {[
-                'Foundation Beams — Foundations of Faith',
-                'Pillar Beams — Leadership Cohort',
-                'Structural Beams — Scripture Intensive',
-                'Beam Groups — Micro Mentorship',
+                'Foundation Beams',
+                'Pillar Beams',
+                'Structural Beams',
+                'Beam Groups',
+                'Apologetics Track',
+                'Hermeneutics Masterclass',
               ].map((item) => (
                 <li key={item}>
-                  <Link to="/programmes" className="text-white/60 hover:text-secondary text-sm transition-colors">
-                    {item}
-                  </Link>
+                  <Link to="/programmes" className="text-white/55 hover:text-[#D97706] text-xs transition-colors">{item}</Link>
                 </li>
               ))}
             </ul>
@@ -99,27 +79,18 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h6 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">Contact Us</h6>
-            <ul className="space-y-3 text-sm text-white/60">
+            <p className="text-white font-bold text-[11px] uppercase tracking-wider mb-3">Contact Us</p>
+            <ul className="space-y-2">
               {[
-                {
-                  icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z',
-                  text: 'Nairobi, Kenya',
-                },
-                {
-                  icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
-                  text: 'info@melchizedekbeams.org',
-                },
-                {
-                  icon: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z',
-                  text: '+254 700 123 456',
-                },
+                { icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z', text: 'Nairobi, Kenya' },
+                { icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', text: 'info@melchizedekbeams.org' },
+                { icon: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z', text: '+254798398350' },
               ].map(({ icon, text }) => (
-                <li key={text} className="flex items-start space-x-2">
-                  <svg className="w-4 h-4 text-secondary mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <li key={text} className="flex items-start gap-1.5">
+                  <svg className="w-3.5 h-3.5 text-[#D97706] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={icon} />
                   </svg>
-                  <span>{text}</span>
+                  <span className="text-white/55 text-xs">{text}</span>
                 </li>
               ))}
             </ul>
@@ -129,19 +100,22 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="border-t border-white/10">
-        <div className="container-custom py-5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/40 text-xs">
-            &copy; {currentYear} Melchizedek Beams Ltd. All rights reserved.
-          </p>
-          <div className="flex space-x-5">
+        <div className="container-custom py-3 flex flex-col sm:flex-row justify-between items-center gap-2">
+          <p className="text-white/35 text-[11px]">&copy; {year} Melchizedek Beams Ltd. All rights reserved.</p>
+          <div className="flex gap-4 flex-wrap items-center justify-center">
             {['Privacy Policy', 'Terms of Service'].map((item) => (
-              <Link key={item} to="#" className="text-white/40 hover:text-secondary text-xs transition-colors">
-                {item}
-              </Link>
+              <Link key={item} to="#" className="text-white/35 hover:text-[#D97706] text-[11px] transition-colors">{item}</Link>
             ))}
-            <Link to="/admin/login" className="text-white/40 hover:text-secondary text-xs transition-colors">
-              Admin
-            </Link>
+            <Link to="/admin/login" className="text-white/35 hover:text-[#D97706] text-[11px] transition-colors">Admin</Link>
+            <span className="text-white/20 text-[11px]">|</span>
+            <a
+              href="https://dominionsoftwares.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/35 hover:text-[#D97706] text-[11px] transition-colors"
+            >
+              Powered by Dominion Softwares
+            </a>
           </div>
         </div>
       </div>
