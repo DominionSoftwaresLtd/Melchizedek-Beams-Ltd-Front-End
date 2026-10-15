@@ -1,248 +1,367 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-const tracks = [
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+
+const STATIC_TRACKS = [
   {
     id: 'foundation-beams',
     beamType: 'Foundation Beams',
-    beamIcon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-      </svg>
-    ),
     title: 'Foundations of Faith',
     duration: '8 Weeks',
     format: 'Online / Hybrid',
     status: 'Open for Enrollment',
     statusKey: 'open',
-    description:
-      'Core spiritual discipline training covering prayer, Scripture study, salvation, and basic Christian living. Ideal for new believers and those seeking to strengthen their foundational walk with Christ.',
+    description: 'Core spiritual discipline training covering prayer, Scripture study, salvation, and basic Christian living.',
     topics: ['Prayer & Devotion', 'Understanding Salvation', 'Scripture Study Methods', 'Christian Living'],
     ctaLabel: 'Enroll Now',
-    ctaLink: '/programmes#enroll-foundations',
   },
   {
     id: 'pillar-beams',
     beamType: 'Pillar Beams',
-    beamIcon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    ),
     title: 'Melchizedek Leadership Cohort',
     duration: '12 Weeks',
     format: 'Cohort-based',
     status: 'Applications Open',
     statusKey: 'applications',
-    description:
-      'Specialized training designed to equip mentors, cell group leaders, and ministry heads for kingdom impact. Combines practical leadership skills with deep spiritual formation.',
+    description: 'Specialized training to equip mentors, cell group leaders, and ministry heads for kingdom impact.',
     topics: ['Servant Leadership', 'Cell Group Facilitation', 'Conflict Resolution', 'Kingdom Vision'],
     ctaLabel: 'Apply Now',
-    ctaLink: '/programmes#apply-leadership',
   },
   {
     id: 'structural-beams',
     beamType: 'Structural Beams',
-    beamIcon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-      </svg>
-    ),
     title: 'Scripture Exegesis Intensive',
     duration: '6 Weeks',
     format: 'Group Study',
     status: 'Upcoming',
     statusKey: 'upcoming',
-    description:
-      'Deep-dive study focused on biblical interpretation, hermeneutics, and systematic theology. Designed for believers who want to handle the Word of God with precision and confidence.',
-    topics: ['Hermeneutics', 'Biblical Context & Culture', 'Systematic Theology', 'Expository Study'],
+    description: 'Deep-dive study on biblical interpretation, hermeneutics, and systematic theology.',
+    topics: ['Hermeneutics', 'Biblical Context', 'Systematic Theology', 'Expository Study'],
     ctaLabel: 'Join Waitlist',
-    ctaLink: '/programmes#waitlist-exegesis',
   },
   {
     id: 'beam-groups',
     beamType: 'Beam Groups',
-    beamIcon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-      </svg>
-    ),
     title: '1-on-1 & Micro-Group Mentorship',
     duration: 'Ongoing',
     format: 'Peer-to-Peer',
     status: 'Active',
     statusKey: 'active',
-    description:
-      'Micro accountability groups of 3–5 people focusing on scripture memory, daily reflection, and prayer watches. Join or start a Beam Group in your area or online.',
-    topics: ['Scripture Memory', 'Daily Reflection', 'Prayer Watches', 'Mutual Accountability'],
+    description: 'Micro accountability groups of 3–5 people for scripture memory, daily reflection, and prayer watches.',
+    topics: ['Scripture Memory', 'Daily Reflection', 'Prayer Watches', 'Accountability'],
     ctaLabel: 'Find a Group',
-    ctaLink: '/programmes#find-group',
+  },
+  {
+    id: 'apologetics',
+    beamType: 'Structural Beams',
+    title: 'Apologetics & Christian Defence',
+    duration: '8 Weeks',
+    format: 'Online / In-person',
+    status: 'Open for Enrollment',
+    statusKey: 'open',
+    description: 'Equipping believers to defend the faith intelligently and engage culture with Gospel truth.',
+    topics: ['What Is Apologetics?', 'Evidence for God', 'Responding to Objections', 'Cultural Engagement'],
+    ctaLabel: 'Enroll Now',
+  },
+  {
+    id: 'hermeneutics',
+    beamType: 'Structural Beams',
+    title: 'Biblical Hermeneutics Masterclass',
+    duration: '10 Weeks',
+    format: 'Cohort-based',
+    status: 'Applications Open',
+    statusKey: 'applications',
+    description: 'Advanced biblical interpretation for teachers and preachers — grammatical, historical, and canonical methods.',
+    topics: ['History of Interpretation', 'Grammatical Analysis', 'Historical Context', 'Preaching Application'],
+    ctaLabel: 'Apply Now',
   },
 ];
 
 const statusStyles = {
-  open: 'status-open',
-  applications: 'status-applications',
-  upcoming: 'status-upcoming',
-  active: 'status-active',
+  open:         'bg-green-100 text-green-700',
+  applications: 'bg-amber-50 text-amber-700',
+  upcoming:     'bg-[#E6F4F1] text-[#0F383E]',
+  active:       'bg-[#0F383E]/10 text-[#0F383E]',
 };
 
-const TrackCard = ({ track }) => (
-  <div className="card flex flex-col">
-    {/* Card Header */}
-    <div className="bg-primary px-6 py-5">
-      <div className="flex items-center justify-between mb-3">
-        {/* Beam type badge */}
-        <span className="inline-flex items-center gap-2 bg-white/10 text-white text-xs font-semibold px-3 py-1 rounded-full">
-          <span className="text-secondary">{track.beamIcon}</span>
-          {track.beamType}
-        </span>
-        {/* Status badge */}
-        <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${statusStyles[track.statusKey]}`}>
-          {track.status}
-        </span>
-      </div>
-      <h3 className="text-white text-xl font-bold leading-snug">{track.title}</h3>
+/* ── Enroll Modal ── */
+const EnrollModal = ({ track, programmeId, onClose }) => {
+  const { user } = useAuth();
+  const [form, setForm] = useState({
+    fullName: user?.name || '',
+    email: user?.email || '',
+    phone: '',
+    statementOfIntent: '',
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+  const [error, setError] = useState('');
 
-      {/* Meta row */}
-      <div className="flex flex-wrap gap-4 mt-3 text-sm text-white/70">
-        <span className="flex items-center gap-1.5">
-          <svg className="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          {track.duration}
-        </span>
-        <span className="flex items-center gap-1.5">
-          <svg className="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-              d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-          {track.format}
-        </span>
+  const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const submit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setError('');
+    try {
+      const res = await fetch(`${API}/registrations`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...form,
+          programmeId: programmeId || track.id,
+          programmeName: track.title,
+        }),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message);
+      setDone(true);
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="bg-primary px-6 py-4 flex items-center justify-between">
+          <div>
+            <p className="text-[#D97706] text-xs font-bold uppercase tracking-wider">{track.beamType}</p>
+            <h4 className="text-white text-base font-bold leading-tight">{track.title}</h4>
+          </div>
+          <button onClick={onClose} className="text-white/60 hover:text-white p-1">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="p-6">
+          {done ? (
+            <div className="text-center py-4">
+              <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h4 className="text-lg font-bold text-primary mb-2">Application Submitted!</h4>
+              <p className="text-gray-500 text-sm mb-4">
+                Thank you! The admin will review your application and contact you. Once approved, your account will be created.
+              </p>
+              <button onClick={onClose} className="btn btn-primary text-sm px-6 py-2">Close</button>
+            </div>
+          ) : (
+            <form onSubmit={submit} className="space-y-4">
+              <p className="text-gray-500 text-xs">All fields are required. Your application will be reviewed by admin before your account is created.</p>
+
+              {error && <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-2.5 text-red-700 text-sm">{error}</div>}
+
+              {[
+                { label: 'Full Name', name: 'fullName', type: 'text', placeholder: 'Your full name' },
+                { label: 'Email Address', name: 'email', type: 'email', placeholder: 'your@email.com' },
+                { label: 'Phone Number', name: 'phone', type: 'tel', placeholder: '+254 7XX XXX XXX' },
+              ].map(({ label, name, type, placeholder }) => (
+                <div key={name}>
+                  <label className="block text-xs font-semibold text-primary mb-1">{label}</label>
+                  <input
+                    type={type}
+                    name={name}
+                    value={form[name]}
+                    onChange={handle}
+                    placeholder={placeholder}
+                    required
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#D97706]/40 focus:border-[#D97706]"
+                  />
+                </div>
+              ))}
+
+              <div>
+                <label className="block text-xs font-semibold text-primary mb-1">Why do you want to join this programme?</label>
+                <textarea
+                  name="statementOfIntent"
+                  value={form.statementOfIntent}
+                  onChange={handle}
+                  rows={3}
+                  required
+                  placeholder="Tell us briefly about your spiritual journey and what you hope to gain..."
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#D97706]/40 focus:border-[#D97706] resize-none"
+                />
+              </div>
+
+              <button type="submit" disabled={submitting} className="btn btn-primary w-full text-sm py-2.5 disabled:opacity-50">
+                {submitting ? 'Submitting...' : 'Submit Application'}
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </div>
+  );
+};
 
-    {/* Card Body */}
-    <div className="p-6 flex flex-col flex-grow">
-      <p className="text-neutral text-sm leading-relaxed mb-5">{track.description}</p>
+/* ── Track Card ── */
+const TrackCard = ({ track, dbProgrammes, onEnroll }) => {
+  const dbMatch = dbProgrammes.find((p) =>
+    p.title.toLowerCase().includes(track.title.split(' ')[0].toLowerCase())
+  );
 
-      {/* Topics */}
-      <div className="mb-6 flex-grow">
-        <p className="text-xs font-bold text-primary uppercase tracking-wider mb-2">What You'll Cover</p>
-        <div className="flex flex-wrap gap-2">
-          {track.topics.map((topic) => (
-            <span
-              key={topic}
-              className="bg-accent text-primary text-xs font-medium px-3 py-1 rounded-full"
-            >
-              {topic}
-            </span>
-          ))}
+  return (
+    <div className="card flex flex-col">
+      {/* Header */}
+      <div className="bg-primary px-4 py-3.5">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[#D97706] text-[10px] font-bold uppercase tracking-wider">{track.beamType}</span>
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${statusStyles[track.statusKey]}`}>
+            {track.status}
+          </span>
+        </div>
+        <h4 className="text-white text-sm font-bold leading-snug">{track.title}</h4>
+        <div className="flex gap-3 mt-2 text-[11px] text-white/60">
+          <span className="flex items-center gap-1">
+            <svg className="w-3 h-3 text-[#D97706]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {track.duration}
+          </span>
+          <span className="flex items-center gap-1">
+            <svg className="w-3 h-3 text-[#D97706]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            {track.format}
+          </span>
         </div>
       </div>
 
-      {/* CTA */}
-      <a
-        href={track.ctaLink}
-        className="btn btn-primary w-full text-sm mt-auto"
-      >
-        {track.ctaLabel}
-        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      </a>
-    </div>
-  </div>
-);
+      {/* Body */}
+      <div className="p-4 flex flex-col flex-grow">
+        <p className="text-gray-600 text-xs leading-relaxed mb-3">{track.description}</p>
 
+        <div className="mb-4 flex-grow">
+          <p className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1.5">What You'll Cover</p>
+          <div className="flex flex-wrap gap-1">
+            {track.topics.map((t) => (
+              <span key={t} className="bg-[#E6F4F1] text-primary text-[10px] font-medium px-2 py-0.5 rounded-full">{t}</span>
+            ))}
+          </div>
+        </div>
+
+        <button
+          onClick={() => onEnroll(track, dbMatch?._id)}
+          className="btn btn-primary w-full text-xs py-2 mt-auto"
+        >
+          {track.ctaLabel}
+          <svg className="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+/* ── Page ── */
 const Programmes = () => {
+  const [dbProgrammes, setDbProgrammes] = useState([]);
+  const [enrollTarget, setEnrollTarget] = useState(null); // { track, programmeId }
+
+  useEffect(() => {
+    fetch(`${API}/programmes`)
+      .then((r) => r.json())
+      .then((d) => { if (d.success) setDbProgrammes(d.data); })
+      .catch(() => {});
+  }, []);
+
+  const openEnroll = (track, programmeId) => setEnrollTarget({ track, programmeId });
+  const closeEnroll = () => setEnrollTarget(null);
+
   return (
     <div className="min-h-screen bg-[#FAF9F5]">
 
       {/* ── Hero ── */}
-      <section className="bg-primary text-white py-20">
-        <div className="container-custom text-center max-w-3xl mx-auto">
-          {/* Eyebrow */}
-          <span className="inline-block bg-secondary/20 text-secondary text-sm font-semibold px-4 py-1 rounded-full mb-4">
+      <section className="bg-primary text-white py-12">
+        <div className="container-custom text-center max-w-2xl mx-auto">
+          <span className="inline-block bg-[#D97706]/20 text-[#D97706] text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">
             Discipleship Tracks
           </span>
-          <h1 className="text-white mb-4">Structured Growth, Beam by Beam</h1>
-          <p className="text-white/70 text-lg leading-relaxed">
-            Every beam has a purpose. Our programmes are designed as load-bearing structures—
-            each one strengthening a specific area of your walk with God and preparing you for
-            greater kingdom impact.
+          <h1 className="text-white text-3xl md:text-4xl mb-3">Structured Growth, Beam by Beam</h1>
+          <p className="text-white/70 text-sm leading-relaxed mb-6 max-w-xl mx-auto">
+            Every beam has a purpose. Our programmes strengthen specific areas of your walk
+            with God and prepare you for greater kingdom impact.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a href="#tracks" className="btn btn-primary">Browse Tracks</a>
-            <Link to="/about" className="btn btn-teal border border-white/20">Learn About Us</Link>
+          <div className="flex flex-wrap justify-center gap-3">
+            <a href="#tracks" className="btn btn-primary text-sm py-2 px-5">Browse Tracks</a>
+            <Link to="/about" className="btn bg-white/10 border border-white/20 text-white hover:bg-white/20 text-sm py-2 px-5">Learn About Us</Link>
           </div>
         </div>
       </section>
 
-      {/* ── Beam Metaphor Banner ── */}
-      <section className="bg-accent border-b border-gray-200">
-        <div className="container-custom py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      {/* ── Beam type strip ── */}
+      <section className="bg-[#E6F4F1] border-b border-gray-200">
+        <div className="container-custom py-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
             {[
               { label: 'Foundation Beams', sub: 'Core faith training' },
               { label: 'Pillar Beams', sub: 'Leadership & ministry' },
               { label: 'Structural Beams', sub: 'Word & theology' },
               { label: 'Beam Groups', sub: 'Mentorship & accountability' },
             ].map((item) => (
-              <div key={item.label}>
-                <p className="text-primary font-bold text-sm">{item.label}</p>
-                <p className="text-gray-500 text-xs mt-0.5">{item.sub}</p>
+              <div key={item.label} className="py-1">
+                <p className="text-primary font-bold text-xs">{item.label}</p>
+                <p className="text-gray-500 text-[11px] mt-0.5">{item.sub}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Track Cards ── */}
-      <section id="tracks" className="section-padding">
+      {/* ── 3-column track cards ── */}
+      <section id="tracks" className="py-12">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <h2 className="mb-3">Our Cohort Tracks</h2>
-            <p className="text-neutral text-lg">
-              Choose the beam that fits your current season of growth. All tracks run in cohorts
-              so you grow alongside a community.
+          <div className="text-center max-w-xl mx-auto mb-8">
+            <h2 className="text-2xl md:text-3xl mb-2">Our Cohort Tracks</h2>
+            <p className="text-gray-600 text-sm">
+              Six structured tracks. Choose the beam that fits your season of growth.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {tracks.map((track) => (
-              <TrackCard key={track.id} track={track} />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {STATIC_TRACKS.map((track) => (
+              <TrackCard
+                key={track.id}
+                track={track}
+                dbProgrammes={dbProgrammes}
+                onEnroll={openEnroll}
+              />
             ))}
           </div>
         </div>
       </section>
 
       {/* ── How It Works ── */}
-      <section className="section-padding bg-white border-t border-gray-200">
+      <section className="py-12 bg-white border-t border-gray-200">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <h2 className="mb-3">How It Works</h2>
-            <p className="text-neutral text-lg">
-              From application to graduation, every step is intentional.
-            </p>
+          <div className="text-center max-w-xl mx-auto mb-8">
+            <h2 className="text-2xl md:text-3xl mb-2">How It Works</h2>
+            <p className="text-gray-600 text-sm">From application to graduation, every step is intentional.</p>
           </div>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-4 gap-6">
             {[
-              { step: '01', title: 'Choose a Track', desc: 'Browse the four beam types and pick the one that matches your current season of growth.' },
-              { step: '02', title: 'Apply or Enroll', desc: 'Complete a short application or enrollment form. Some cohorts have limited spaces.' },
-              { step: '03', title: 'Join the Cohort', desc: 'Connect with your cohort group, meet your facilitator, and receive your materials.' },
-              { step: '04', title: 'Grow & Multiply', desc: 'Complete the track, be assessed, and go on to disciple others in what you\'ve learned.' },
+              { step: '01', title: 'Choose a Track', desc: 'Browse the six tracks and pick the one that matches your current season of growth.' },
+              { step: '02', title: 'Apply or Enroll', desc: 'Complete a short enrollment form. The admin reviews and approves your application.' },
+              { step: '03', title: 'Account Created', desc: 'Once approved, your student account is created and you receive login credentials.' },
+              { step: '04', title: 'Grow & Multiply', desc: 'Complete the track, track your progress, and download your certificate upon graduation.' },
             ].map((item) => (
               <div key={item.step} className="text-center">
-                <div className="w-14 h-14 rounded-full bg-accent border-2 border-secondary/30 flex items-center justify-center mx-auto mb-4">
-                  <span className="text-secondary font-bold text-lg">{item.step}</span>
+                <div className="w-11 h-11 rounded-full bg-[#E6F4F1] border-2 border-[#D97706]/30 flex items-center justify-center mx-auto mb-3">
+                  <span className="text-[#D97706] font-bold text-sm">{item.step}</span>
                 </div>
-                <h5 className="mb-2">{item.title}</h5>
-                <p className="text-neutral text-sm leading-relaxed">{item.desc}</p>
+                <h5 className="text-sm font-bold mb-1.5">{item.title}</h5>
+                <p className="text-gray-500 text-xs leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -250,19 +369,25 @@ const Programmes = () => {
       </section>
 
       {/* ── Bottom CTA ── */}
-      <section className="section-padding bg-primary">
-        <div className="container-custom text-center max-w-2xl mx-auto">
-          <h2 className="text-white mb-4">Not Sure Where to Start?</h2>
-          <p className="text-white/70 text-lg mb-8">
-            Reach out and one of our programme coordinators will help you find the right track.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/about" className="btn btn-primary">Contact Us</Link>
-            <Link to="/resources" className="btn btn-teal border border-white/20">Browse Resources</Link>
+      <section className="py-12 bg-primary">
+        <div className="container-custom text-center max-w-xl mx-auto">
+          <h2 className="text-white text-2xl mb-3">Not Sure Where to Start?</h2>
+          <p className="text-white/70 text-sm mb-6">Reach out and a programme coordinator will help you find the right track.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link to="/about" className="btn btn-primary text-sm py-2 px-5">Contact Us</Link>
+            <Link to="/resources" className="btn bg-white/10 border border-white/20 text-white hover:bg-white/20 text-sm py-2 px-5">Browse Resources</Link>
           </div>
         </div>
       </section>
 
+      {/* ── Enroll Modal ── */}
+      {enrollTarget && (
+        <EnrollModal
+          track={enrollTarget.track}
+          programmeId={enrollTarget.programmeId}
+          onClose={closeEnroll}
+        />
+      )}
     </div>
   );
 };
