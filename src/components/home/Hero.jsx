@@ -16,7 +16,12 @@ const Hero = () => {
 
       {/* Content pushed down enough on mobile that the hero image top (DISCIPLESHIP) stays visible */}
       <div className="container-custom relative z-10 pb-12 md:pb-20 pt-[55%] sm:pt-[40%] md:pt-32 w-full">
-        <div className="max-w-xl">
+        <div className="max-w-xl md:mx-auto md:text-center">
+
+          {/* Brand name — desktop only */}
+          <p className="hidden md:block text-white/60 text-xs font-bold uppercase tracking-[0.3em] mb-2">
+            Melchizedek Beams
+          </p>
 
           {/* Eyebrow */}
           <span className="inline-block bg-[#D97706] text-white text-[11px] font-bold px-3 py-1 rounded-sm mb-4 uppercase tracking-[0.15em]">
@@ -31,13 +36,13 @@ const Hero = () => {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-white/80 text-sm md:text-base leading-relaxed mb-7 max-w-md">
+          <p className="text-white/80 text-sm md:text-base leading-relaxed mb-7 max-w-md md:mx-auto">
             A discipleship and spiritual growth organization raising up kingdom leaders
             through prayer, Word study, mentorship and accountability.
           </p>
 
           {/* CTAs — stacked full-width on mobile, inline on sm+ */}
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto md:justify-center">
             <Link
               to="/programmes"
               className="btn btn-primary px-6 py-3 text-sm w-full sm:w-auto justify-center"
