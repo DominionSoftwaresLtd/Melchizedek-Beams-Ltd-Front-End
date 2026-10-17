@@ -16,23 +16,17 @@ const Hero = () => {
 
       {/* Content pushed down enough on mobile that the hero image top (DISCIPLESHIP) stays visible */}
       <div className="container-custom relative z-10 pb-12 md:pb-20 pt-[55%] sm:pt-[40%] md:pt-32 w-full">
-        <div className="max-w-xl md:mx-auto md:text-center">
-
-          {/* Brand name — desktop only */}
-          <p className="hidden md:block text-white/60 text-xs font-bold uppercase tracking-[0.3em] mb-2">
-            Melchizedek Beams
-          </p>
+        <div className="max-w-xl md:max-w-3xl md:mx-auto md:text-center">
 
           {/* Eyebrow */}
           <span className="inline-block bg-[#D97706] text-white text-[11px] font-bold px-3 py-1 rounded-sm mb-4 uppercase tracking-[0.15em]">
             Discipleship · Prayer · Mentorship
           </span>
 
-          {/* Headline — smaller on mobile so it fits without hiding the bg image text */}
-          <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] mb-4">
-            Equipping<br />
-            <span className="text-[#D97706]">Believers,</span><br />
-            Beam by Beam.
+          {/* Headline */}
+          <h1 className="text-white text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold leading-[1.15] mb-4 whitespace-nowrap">
+            <span className="block">Melchizedek Beams.</span>
+            <span className="block">Equipping <span className="text-[#D97706]">Believers,</span> Beam by Beam.</span>
           </h1>
 
           {/* Subtitle */}
